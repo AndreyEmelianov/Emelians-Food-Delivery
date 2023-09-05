@@ -1,9 +1,12 @@
 import Button from './components/ui/Button/Button';
+import Input from './components/ui/Input/Input';
 
 function App() {
 	return (
 		<>
-			<Button>Хеллоу</Button>
+			<Button appearance="small">Хеллоу</Button>
+			<Button appearance="big">Хеллоу2</Button>
+			<Input placeholder="Email" />
 		</>
 	);
 }
