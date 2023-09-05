@@ -8,7 +8,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Menu } from './pages/Menu/Menu.tsx';
 import { Cart } from './pages/Cart/Cart.tsx';
 import { ErrorPage } from './pages/ErrorPage/ErrorPage.tsx';
-import { Layout } from './layout/Menu/Menu.tsx';
+import { Layout } from './layout/Layout/Layout.tsx';
 
 const router = createBrowserRouter([
 	{
