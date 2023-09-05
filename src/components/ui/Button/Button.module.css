@@ -6,13 +6,13 @@
 	font-size: 16px;
 	transition: background 0.25s;
 	border: none;
-	color: #fff;
+	color: var(--white-color);
 }
 
 .accent {
-	background: #312eb5;
+	background: var(--primary-color);
 }
 
 .accent:hover {
-	background: #222096;
+	background: var(--primary-hover-color);
 }
