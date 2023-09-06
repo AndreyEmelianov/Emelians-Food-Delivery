@@ -6,19 +6,14 @@ import { PREFIX_URL } from '../../helpers/API';
 import { IProduct } from '../../interfaces/product.interface';
 
 import styles from './Menu.module.css';
+import axios from 'axios';
 
 export function Menu() {
 	const [products, setProducts] = useState<IProduct[]>([]);
 
 	const getMenu = async () => {
 		try {
-			const res = await fetch(`${PREFIX_URL}/products`);
-			if (!res.ok) {
-				return;
-			}
-
-			const data = (await res.json()) as IProduct[];
-
+			const { data } = await axios.get<IProduct[]>(`${PREFIX_URL}/products`);
 			setProducts(data);
 		} catch (e) {
 			console.error(e);
