@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './ProductCard.module.css';
 import { IProductCardProps } from './ProductCard.props';
 
-function ProductCard({ id, title, description, image, price, rating }: IProductCardProps) {
+function ProductCard({ id, name, description, image, price, rating }: IProductCardProps) {
 	return (
 		<Link to={`/product/${id}`} className={styles['link']}>
 			<div className={styles['card']}>
@@ -20,7 +20,7 @@ function ProductCard({ id, title, description, image, price, rating }: IProductC
 					</div>
 				</div>
 				<div className={styles['footer']}>
-					<div className={styles['title']}>{title}</div>
+					<div className={styles['title']}>{name}</div>
 					<div className={styles['description']}>{description}</div>
 				</div>
 			</div>
