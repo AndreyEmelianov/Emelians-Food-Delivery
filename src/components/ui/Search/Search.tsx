@@ -1,9 +1,9 @@
 import cn from 'classnames';
+import { forwardRef } from 'react';
+
+import { ISearchProps } from './Search.props';
 
 import styles from './Search.module.css';
-
-import { forwardRef } from 'react';
-import { ISearchProps } from './Search.props';
 
 const Search = forwardRef<HTMLInputElement, ISearchProps>(function Input(
 	{ className, isValid = true, ...props },
