@@ -4,13 +4,10 @@ import Headling from '../../components/ui/Headling/Headling';
 import Input from '../../components/ui/Input/Input';
 
 import styles from './Login.module.css';
-import { FormEvent, useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { PREFIX_URL } from '../../helpers/API';
-import { ILoginResponse } from '../../interfaces/auth.interface';
-import { AppDispatch } from '../../store/store';
-import { useDispatch } from 'react-redux';
-import { userActions } from '../../store/user.slice';
+import { FormEvent, useEffect, useState } from 'react';
+import { AppDispatch, RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../store/user.slice';
 
 export type LoginForm = {
 	email: {
@@ -25,6 +22,13 @@ export function Login() {
 	const [error, setError] = useState<string | null>();
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
+	const jwt = useSelector((state: RootState) => state.user.jwt);
+
+	useEffect(() => {
+		if (jwt) {
+			navigate('/');
+		}
+	}, [jwt, navigate]);
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -35,19 +39,20 @@ export function Login() {
 	};
 
 	const sendLogin = async (email: string, password: string) => {
-		try {
-			const { data } = await axios.post<ILoginResponse>(`${PREFIX_URL}/auth/login`, {
-				email,
-				password,
-			});
+		dispatch(login({ email, password }));
+		// try {
+		// 	const { data } = await axios.post<ILoginResponse>(`${PREFIX_URL}/auth/login`, {
+		// 		email,
+		// 		password,
+		// 	});
 
-			dispatch(userActions.addJwt(data.access_token));
-			navigate('/');
-		} catch (e) {
-			if (e instanceof AxiosError) {
-				setError(e.response?.data.message);
-			}
-		}
+		// 	dispatch(userActions.addJwt(data.access_token));
+		// 	navigate('/');
+		// } catch (e) {
+		// 	if (e instanceof AxiosError) {
+		// 		setError(e.response?.data.message);
+		// 	}
+		// }
 	};
 
 	return (

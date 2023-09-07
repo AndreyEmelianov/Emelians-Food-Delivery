@@ -1,5 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadState } from './storage';
+import axios from 'axios';
+import { ILoginResponse } from '../interfaces/auth.interface';
+import { PREFIX_URL } from '../helpers/API';
 
 export const JWT_PERSISTENT_STATE = 'userData';
 
@@ -14,16 +17,29 @@ const initialState: IUserState = {
 	jwt: loadState<IUserPersistentState>(JWT_PERSISTENT_STATE)?.jwt ?? null,
 };
 
+export const login = createAsyncThunk(
+	'user/login',
+	async (params: { email: string; password: string }) => {
+		const { data } = await axios.post<ILoginResponse>(`${PREFIX_URL}/auth/login`, {
+			email: params.email,
+			password: params.password,
+		});
+		return data;
+	}
+);
+
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		addJwt: (state, action: PayloadAction<string>) => {
-			state.jwt = action.payload;
-		},
 		logout: (state) => {
 			state.jwt = null;
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(login.fulfilled, (state, action: PayloadAction<ILoginResponse>) => {
+			state.jwt = action.payload.access_token;
+		});
 	},
 });
 
