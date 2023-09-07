@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { loadState } from './storage';
 import axios from 'axios';
 import { ILoginResponse } from '../interfaces/auth.interface';
@@ -11,6 +11,7 @@ export interface IUserPersistentState {
 }
 export interface IUserState {
 	jwt: string | null;
+	loginErrorMessage?: string;
 }
 
 const initialState: IUserState = {
@@ -37,8 +38,11 @@ export const userSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(login.fulfilled, (state, action: PayloadAction<ILoginResponse>) => {
+		builder.addCase(login.fulfilled, (state, action) => {
 			state.jwt = action.payload.access_token;
+		});
+		builder.addCase(login.rejected, (state, action) => {
+			state.loginErrorMessage = action.error.message;
 		});
 	},
 });

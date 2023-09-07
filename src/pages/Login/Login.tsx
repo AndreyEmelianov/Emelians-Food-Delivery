@@ -19,7 +19,6 @@ export type LoginForm = {
 };
 
 export function Login() {
-	const [error, setError] = useState<string | null>();
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
 	const jwt = useSelector((state: RootState) => state.user.jwt);
@@ -32,7 +31,6 @@ export function Login() {
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
-		setError(null);
 		const target = e.target as typeof e.target & LoginForm;
 		const { email, password } = target;
 		await sendLogin(email.value, password.value);
