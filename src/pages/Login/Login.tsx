@@ -4,10 +4,10 @@ import Headling from '../../components/ui/Headling/Headling';
 import Input from '../../components/ui/Input/Input';
 
 import styles from './Login.module.css';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { AppDispatch, RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../store/user.slice';
+import { login, userActions } from '../../store/user.slice';
 
 export type LoginForm = {
 	email: {
@@ -21,7 +21,7 @@ export type LoginForm = {
 export function Login() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
-	const jwt = useSelector((state: RootState) => state.user.jwt);
+	const { jwt, loginErrorMessage } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		if (jwt) {
@@ -31,6 +31,7 @@ export function Login() {
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault();
+		dispatch(userActions.clearLoginError());
 		const target = e.target as typeof e.target & LoginForm;
 		const { email, password } = target;
 		await sendLogin(email.value, password.value);
@@ -56,7 +57,7 @@ export function Login() {
 	return (
 		<div className={styles['login']}>
 			<Headling>Вход</Headling>
-			{error && <div className={styles['error']}>{error}</div>}
+			{loginErrorMessage && <div className={styles['error']}>{loginErrorMessage}</div>}
 			<form className={styles['form']} onSubmit={submit}>
 				<div className={styles['field']}>
 					<label htmlFor="email">Ваш email</label>

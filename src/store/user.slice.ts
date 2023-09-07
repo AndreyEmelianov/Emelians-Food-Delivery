@@ -36,6 +36,9 @@ export const userSlice = createSlice({
 		logout: (state) => {
 			state.jwt = null;
 		},
+		clearLoginError: (state) => {
+			state.loginErrorMessage = undefined;
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(login.fulfilled, (state, action) => {
