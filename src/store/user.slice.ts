@@ -3,15 +3,19 @@ import { loadState } from './storage';
 import axios, { AxiosError } from 'axios';
 import { ILoginResponse } from '../interfaces/auth.interface';
 import { PREFIX_URL } from '../helpers/API';
+import { IProfile } from '../interfaces/user.interface';
+import { RootState } from './store';
 
 export const JWT_PERSISTENT_STATE = 'userData';
 
 export interface IUserPersistentState {
 	jwt: string | null;
 }
+
 export interface IUserState {
 	jwt: string | null;
 	loginErrorMessage?: string;
+	profile?: IProfile;
 }
 
 const initialState: IUserState = {
@@ -35,6 +39,19 @@ export const login = createAsyncThunk(
 	}
 );
 
+export const profile = createAsyncThunk<IProfile, void, { state: RootState }>(
+	'user/profile',
+	async (_, thunkApi) => {
+		const jwt = thunkApi.getState().user.jwt;
+		const { data } = await axios.get<IProfile>(`${PREFIX_URL}/user/profile`, {
+			headers: {
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		return data;
+	}
+);
+
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
@@ -55,6 +72,9 @@ export const userSlice = createSlice({
 		});
 		builder.addCase(login.rejected, (state, action) => {
 			state.loginErrorMessage = action.error.message;
+		});
+		builder.addCase(profile.fulfilled, (state, action) => {
+			state.profile = action.payload;
 		});
 	},
 });
