@@ -21,6 +21,7 @@ export const cartSlice = createSlice({
 			const existed = state.items.find((item) => item.id === action.payload);
 			if (!existed) {
 				state.items.push({ id: action.payload, count: 1 });
+				return;
 			}
 			state.items.map((item) => {
 				if (item.id === action.payload) {
