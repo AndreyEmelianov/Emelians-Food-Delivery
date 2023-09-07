@@ -40,3 +40,10 @@
 	color: var(--primary-color);
 	text-decoration: none;
 }
+
+.error {
+	background: rgb(231, 83, 83);
+	color: var(--white-color);
+	padding: 20px;
+	border-radius: 10px;
+}
