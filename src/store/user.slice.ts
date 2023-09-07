@@ -39,8 +39,8 @@ export const login = createAsyncThunk(
 	}
 );
 
-export const profile = createAsyncThunk<IProfile, void, { state: RootState }>(
-	'user/profile',
+export const getProfile = createAsyncThunk<IProfile, void, { state: RootState }>(
+	'user/getProfile',
 	async (_, thunkApi) => {
 		const jwt = thunkApi.getState().user.jwt;
 		const { data } = await axios.get<IProfile>(`${PREFIX_URL}/user/profile`, {
@@ -73,7 +73,7 @@ export const userSlice = createSlice({
 		builder.addCase(login.rejected, (state, action) => {
 			state.loginErrorMessage = action.error.message;
 		});
-		builder.addCase(profile.fulfilled, (state, action) => {
+		builder.addCase(getProfile.fulfilled, (state, action) => {
 			state.profile = action.payload;
 		});
 	},
