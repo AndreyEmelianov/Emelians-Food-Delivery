@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Headling from '../../components/ui/Headling/Headling';
-import { RootState } from '../../store/store';
+import { AppDispatch, RootState } from '../../store/store';
 import CartItem from '../../components/CartItem/CartItem';
 import { IProduct } from '../../interfaces/product.interface';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import { PREFIX_URL } from '../../helpers/API';
 import styles from './Cart.module.css';
 import Button from '../../components/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
+import { cartActions } from '../../store/cart.slice';
 
 const DELIVERY_FEE = 170;
 
@@ -17,6 +18,7 @@ export function Cart() {
 	const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
 	const items = useSelector((state: RootState) => state.cart.items);
 	const jwt = useSelector((state: RootState) => state.user.jwt);
+	const dispatch = useDispatch<AppDispatch>();
 
 	const navigate = useNavigate();
 
@@ -53,6 +55,7 @@ export function Cart() {
 				},
 			}
 		);
+		dispatch(cartActions.clean());
 		navigate('/success');
 	};
 
