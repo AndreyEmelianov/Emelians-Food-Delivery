@@ -8,6 +8,7 @@ import axios from 'axios';
 import { PREFIX_URL } from '../../helpers/API';
 
 import styles from './Cart.module.css';
+import Button from '../../components/ui/Button/Button';
 
 const DELIVERY_FEE = 170;
 
@@ -68,10 +69,16 @@ export function Cart() {
 			</div>
 			<hr className={styles['hr']} />
 			<div className={styles['line']}>
-				<div className={styles['text']}>Итог {items.length}</div>
+				<div className={styles['text']}>
+					Итог <span>({items.length})</span>
+				</div>
 				<div className={styles['price']}>
 					{total + DELIVERY_FEE}&nbsp;<span>₽</span>
 				</div>
+			</div>
+
+			<div className={styles['checkout-line']}>
+				<Button appearance="big">Оформить</Button>
 			</div>
 		</>
 	);

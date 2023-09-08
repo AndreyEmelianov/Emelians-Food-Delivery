@@ -26,9 +26,24 @@
 	color: var(--text-color);
 }
 
+.text span {
+	color: #bebebe;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 300;
+}
+
 .price {
 	font-size: 19px;
 	font-style: normal;
 	font-weight: 400;
 	color: var(--text-color);
+}
+
+.checkout-line {
+	max-width: 512px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 70px;
 }
