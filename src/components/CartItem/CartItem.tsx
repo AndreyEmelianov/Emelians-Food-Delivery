@@ -11,9 +11,13 @@ function CartItem({ id, name, image, price, count }: ICartItemProps) {
 		dispatch(cartActions.addToCart(id));
 	};
 
-	const decrease = () => {};
+	const decrease = () => {
+		dispatch(cartActions.removeCartItem(id));
+	};
 
-	const remove = () => {};
+	const remove = () => {
+		dispatch(cartActions.deleteItemFromCart(id));
+	};
 
 	return (
 		<div className={styles['cart-item']}>

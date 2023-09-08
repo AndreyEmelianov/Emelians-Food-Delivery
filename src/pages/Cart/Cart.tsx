@@ -36,7 +36,7 @@ export function Cart() {
 					return;
 				}
 
-				return <CartItem count={item.count} {...product} />;
+				return <CartItem key={product.id} count={item.count} {...product} />;
 			})}
 		</>
 	);
