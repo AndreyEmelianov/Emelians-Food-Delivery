@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { PREFIX_URL } from '../../helpers/API';
 
+import styles from './Cart.module.css';
+
 export function Cart() {
 	const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
 	const items = useSelector((state: RootState) => state.cart.items);
@@ -27,7 +29,7 @@ export function Cart() {
 
 	return (
 		<>
-			<Headling>Корзина</Headling>
+			<Headling className={styles['headling']}>Корзина</Headling>
 			{items.map((item) => {
 				const product = cartProducts.find((product) => product.id === item.id);
 				if (!product) {

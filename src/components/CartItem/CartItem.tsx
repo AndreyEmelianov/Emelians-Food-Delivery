@@ -21,19 +21,19 @@ function CartItem({ id, name, image, price, count }: ICartItemProps) {
 
 			<div className={styles['description']}>
 				<div className={styles['name']}>{name}</div>
-				<div className={styles['currency']}>{price}&nbsp;₽</div>
+				<div className={styles['price']}>{price}&nbsp;₽</div>
 			</div>
 
 			<div className={styles['actions']}>
-				<button className={styles['button']} onClick={decrease}>
-					<img src="/cart-button-icon.svg" alt="Удалить товар" />
+				<button className={styles['decr']} onClick={decrease}>
+					<img src="/decrement-icon.svg" alt="Удалить товар" />
 				</button>
-				<div>{count}</div>
-				<button className={styles['button']} onClick={increase}>
-					<img src="/cart-button-icon.svg" alt="Добавить товар" />
+				<div className={styles['counter']}>{count}</div>
+				<button className={styles['incr']} onClick={increase}>
+					<img src="/increment-icon.svg" alt="Добавить товар" />
 				</button>
 				<button className={styles['remove']} onClick={remove}>
-					<img src="/cart-button-icon.svg" alt="Удалить всё" />
+					<img src="/delete-icon.svg" alt="Удалить всё" />
 				</button>
 			</div>
 		</div>
