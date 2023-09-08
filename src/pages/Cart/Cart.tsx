@@ -9,12 +9,16 @@ import { PREFIX_URL } from '../../helpers/API';
 
 import styles from './Cart.module.css';
 import Button from '../../components/ui/Button/Button';
+import { useNavigate } from 'react-router-dom';
 
 const DELIVERY_FEE = 170;
 
 export function Cart() {
 	const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
 	const items = useSelector((state: RootState) => state.cart.items);
+	const jwt = useSelector((state: RootState) => state.user.jwt);
+
+	const navigate = useNavigate();
 
 	const total = items
 		.map((item) => {
@@ -35,6 +39,21 @@ export function Cart() {
 	const loadAllItems = async () => {
 		const res = await Promise.all(items.map((item) => getItem(item.id)));
 		setCartProducts(res);
+	};
+
+	const checkout = async () => {
+		await axios.post(
+			`${PREFIX_URL}/order`,
+			{
+				products: items,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${jwt}`,
+				},
+			}
+		);
+		navigate('/success');
 	};
 
 	useEffect(() => {
@@ -78,7 +97,9 @@ export function Cart() {
 			</div>
 
 			<div className={styles['checkout-line']}>
-				<Button appearance="big">Оформить</Button>
+				<Button appearance="big" onClick={checkout}>
+					Оформить
+				</Button>
 			</div>
 		</>
 	);
